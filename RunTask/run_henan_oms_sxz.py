@@ -151,7 +151,7 @@ class RunSxz(object):
         self.userid = userid
         self.wfname_id = wfname_id
         self.start_run_time = start_run_time
-        # self.sxz_token = F'c8eb8d7b8fe2a3c07843233bf225082126db09ab59506bd5631abef4304da29e'
+        # self.jf_token = F'c8eb8d7b8fe2a3c07843233bf225082126db09ab59506bd5631abef4304da29e'
         # 天润
         self.jf_token = F'c8eb8d7b8fe2a3c07843233bf225082126db09ab59506bd5631abef4304da29e'
         # 奈卢斯
@@ -440,7 +440,7 @@ class RunSxz(object):
         im.save(save_wind_wfname_sxq)
         wfname_append = henan_run_3_8_dict_false["markdown"]["text"] + F'{self.wfname}'
         henan_run_3_8_dict_false["markdown"]["text"] = wfname_append
-        DAT.push_message(self.sxz_token, henan_run_3_8_dict_false)
+        DAT.push_message(self.jf_token, henan_run_3_8_dict_false)
         DAT.send_file(save_wind_wfname_sxq, 0)
         print('上报了了！')
 
@@ -489,7 +489,7 @@ class RunSxz(object):
         from DingDingMarkDown.HenanDingDingMarkDown import henan_run_3_11_dict_false
         wfname_append = henan_run_3_11_dict_false["markdown"]["text"] + F'{self.wfname}'
         henan_run_3_11_dict_false["markdown"]["text"] = wfname_append
-        DAT.push_message(self.sxz_token, henan_run_3_11_dict_false)
+        DAT.push_message(self.jf_token, henan_run_3_11_dict_false)
         DAT.send_file(save_wind_wfname_sxq, 0)
         print('异常了！')
 
@@ -536,7 +536,7 @@ class RunSxz(object):
         from DingDingMarkDown.HenanDingDingMarkDown import henan_run_4_1_dict_false
         wfname_append = henan_run_4_1_dict_false["markdown"]["text"] + F'{self.wfname}'
         henan_run_4_1_dict_false["markdown"]["text"] = wfname_append
-        DAT.push_message(self.sxz_token, henan_run_4_1_dict_false)
+        DAT.push_message(self.jf_token, henan_run_4_1_dict_false)
         DAT.send_file(save_wind_wfname_sxq, 0)
         print('异常了！')
 
@@ -583,7 +583,7 @@ class RunSxz(object):
         from DingDingMarkDown.HenanDingDingMarkDown import henan_run_4_3_dict_false
         wfname_append = henan_run_4_3_dict_false["markdown"]["text"] + F'{self.wfname}'
         henan_run_4_3_dict_false["markdown"]["text"] = wfname_append
-        DAT.push_message(self.sxz_token, henan_run_4_3_dict_false)
+        DAT.push_message(self.jf_token, henan_run_4_3_dict_false)
         DAT.send_file(save_wind_wfname_sxq, 0)
 
     def run_4_4(self, table0):
@@ -632,14 +632,15 @@ class RunSxz(object):
         from DingDingMarkDown.HenanDingDingMarkDown import henan_run_4_4_dict_false
         wfname_append = henan_run_4_4_dict_false["markdown"]["text"] + F'{self.wfname}'
         henan_run_4_4_dict_false["markdown"]["text"] = wfname_append
-        DAT.push_message(self.sxz_token, henan_run_4_4_dict_false)
+        DAT.push_message(self.jf_token, henan_run_4_4_dict_false)
         DAT.send_file(save_wind_wfname_sxq, 0)
         print('异常了！')
 
     def exit_username_login(self):
         try:
             res = self.page.ele('x://*[@id="app"]/section/header/div/div[2]/div/div/span').click()
-        except:
+        except  Exception as e:
+            print(F'没有退出选项---{e}')
             return
 
         if res:
@@ -681,10 +682,14 @@ class RunSxz(object):
 
 
 def run_henan_oms_sxz_demo():
-    for i in range(1):
+    for i in range(3):
         close_chrome()
-        report_li = ReadyLogin().change_usbid()
-        print(F'上报场站:{report_li}\n')
+        try:
+            report_li = ReadyLogin().change_usbid()
+            print(F'上报场站:{report_li}\n')
+        except Exception as e:
+            print(f'异常,暂停30s-{e}')
+            pass
 
 
 def close_chrome():
@@ -693,7 +698,8 @@ def close_chrome():
 
     try:
         page.quit()
-    except:
+    except Exception as e:
+        print(f'退出百度失败!@{e}')
         pass
 
 
